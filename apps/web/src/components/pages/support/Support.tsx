@@ -39,10 +39,10 @@ const SupportPage = () => {
                 {"평일 09:00 ~ 18:00\n(점심시간 13:00 ~ 14:00)"}
               </p>
             </div>
-            <div className="flex lg:flex-col justify-between lg:justify-start lg:gap-[25px]">
-              {/* <span className="bold-heading6 lg:bold-heading4 text-primary">
+            {/* <div className="flex lg:flex-col justify-between lg:justify-start lg:gap-[25px]">
+              <span className="bold-heading6 lg:bold-heading4 text-primary">
                 02-123-4567
-              </span> */}
+              </span>
 
               <div className="flex items-center lg:justify-center gap-[6px] lg:gap-[10px]">
                 <Icon
@@ -52,7 +52,7 @@ const SupportPage = () => {
 
                 <span className="medium-body">실시간 상담하기</span>
               </div>
-            </div>
+            </div> */}
           </div>
 
           {/* QnA 리스트 */}
