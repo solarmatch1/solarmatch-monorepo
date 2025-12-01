@@ -4,7 +4,8 @@ export default function Document() {
   return (
     <Html suppressHydrationWarning>
       <Head>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" type="image/x-icon" href="/favicon.ico?v=2" />
+        <link rel="apple-touch-icon" href="/favicon.ico?v=2" />
       </Head>
       <body>
         <Main />
