@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useSupport } from "./hooks/useSupport";
 import { Pagination } from "@repo/ui/pagination";
 import AdminLoading from "@/components/AdminLoading";
+import { NonData } from "@repo/ui";
 
 const SupportPage = () => {
   const {
@@ -17,6 +18,7 @@ const SupportPage = () => {
     faqAccordion,
     handleDeleteQna,
     isQnaListLoading,
+    totalCount,
   } = useSupport();
 
   if (isQnaListLoading) {
@@ -57,73 +59,81 @@ const SupportPage = () => {
       </div>
 
       <div className="flex flex-col mb-[40px] gap-[15px] lg:gap-[20px]">
-        {qnaList.map(qna => (
-          <Accordion
-            key={qna.id}
-            isOpen={faqAccordion.isOpen(qna.id)}
-            onToggle={() => faqAccordion.handleToggle(qna.id)}
-            className="border-b border-border-color"
-          >
-            <Accordion.Trigger className="w-full flex pr-0 lg:pr-[50px] pb-[15px] lg:pb-[20px]">
-              <span className="flex items-center gap-1 bold-body">
-                <span className="text-[#000DD5] shrink-0">Q.</span>
-                <span>{qna.question}</span>
-              </span>
+        {!!totalCount ? (
+          qnaList.map(qna => (
+            <Accordion
+              key={qna.id}
+              isOpen={faqAccordion.isOpen(qna.id)}
+              onToggle={() => faqAccordion.handleToggle(qna.id)}
+              className="border-b border-border-color"
+            >
+              <Accordion.Trigger className="w-full flex pr-0 lg:pr-[50px] pb-[15px] lg:pb-[20px]">
+                <span className="flex items-center gap-1 bold-body">
+                  <span className="text-[#000DD5] shrink-0">Q.</span>
+                  <span>{qna.question}</span>
+                </span>
 
-              <motion.div
-                animate={{
-                  rotate: faqAccordion.isOpen(qna.id) ? 180 : 0,
-                }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
-                style={{ transformOrigin: "center" }}
-                className="ml-auto flex items-center shrink-0"
-              >
-                <Icon
-                  iconName="chevronDown"
-                  className="w-[22px] text-middle-gray"
-                />
-              </motion.div>
-            </Accordion.Trigger>
-            <Accordion.Content className="py-[11px] lg:py-[16px] px-[16px] medium-body bg-light-gray border-t border-border-color flex gap-[10px] justify-between items-end">
-              <p className="whitespace-pre-line max-w-[500px]">{qna.answer}</p>
-
-              <div className="flex items-center gap-[10px]">
-                <Link
-                  href={`/support/edit/${qna.id}`}
-                  className="w-[22px] h-[22px]"
+                <motion.div
+                  animate={{
+                    rotate: faqAccordion.isOpen(qna.id) ? 180 : 0,
+                  }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                  style={{ transformOrigin: "center" }}
+                  className="ml-auto flex items-center shrink-0"
                 >
+                  <Icon
+                    iconName="chevronDown"
+                    className="w-[22px] text-middle-gray"
+                  />
+                </motion.div>
+              </Accordion.Trigger>
+              <Accordion.Content className="py-[11px] lg:py-[16px] px-[16px] medium-body bg-light-gray border-t border-border-color flex gap-[10px] justify-between items-end">
+                <p className="whitespace-pre-line max-w-[500px]">
+                  {qna.answer}
+                </p>
+
+                <div className="flex items-center gap-[10px]">
+                  <Link
+                    href={`/support/edit/${qna.id}`}
+                    className="w-[22px] h-[22px]"
+                  >
+                    <Button
+                      variant="ghost"
+                      icon={
+                        <Icon
+                          iconName="editPencil"
+                          className="w-full h-fulltext-primary"
+                        />
+                      }
+                    />
+                  </Link>
+
                   <Button
                     variant="ghost"
                     icon={
                       <Icon
-                        iconName="editPencil"
-                        className="w-full h-fulltext-primary"
+                        iconName="trash"
+                        className="w-[24px] h-[24px] text-primary"
                       />
                     }
+                    onClick={() => handleDeleteQna(qna.id)}
                   />
-                </Link>
-
-                <Button
-                  variant="ghost"
-                  icon={
-                    <Icon
-                      iconName="trash"
-                      className="w-[24px] h-[24px] text-primary"
-                    />
-                  }
-                  onClick={() => handleDeleteQna(qna.id)}
-                />
-              </div>
-            </Accordion.Content>
-          </Accordion>
-        ))}
+                </div>
+              </Accordion.Content>
+            </Accordion>
+          ))
+        ) : (
+          <NonData nonDataText="문의 내역이 없습니다." />
+        )}
       </div>
 
-      <Pagination
-        currentPage={currentPage}
-        onPageChange={handlePageChange}
-        totalPages={totalPages}
-      />
+      {!!totalCount && (
+        <Pagination
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
+          totalPages={totalPages}
+        />
+      )}
     </AdminRootLayout>
   );
 };

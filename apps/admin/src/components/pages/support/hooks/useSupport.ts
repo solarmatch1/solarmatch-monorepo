@@ -23,6 +23,7 @@ export const useSupport = () => {
   });
   const { data: qnaPagination } = data ?? {};
   const totalPages = qnaPagination?.totalPages ?? 0;
+  const totalCount = qnaPagination?.total ?? 0;
   const qnaList = qnaPagination?.data ?? [];
 
   // QnA 삭제
@@ -50,5 +51,6 @@ export const useSupport = () => {
     faqAccordion,
     handleDeleteQna,
     isQnaListLoading,
+    totalCount,
   };
 };
